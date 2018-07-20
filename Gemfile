@@ -43,3 +43,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Added at 2018-07-20 12:11:08 +0000 by root:
+gem "devise-jwt", "~> 0.5.7"
+
+# Added at 2018-07-20 12:49:24 +0000 by root:
+gem "devise_invitable", "~> 1.7"
