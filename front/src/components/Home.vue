@@ -56,7 +56,7 @@
 
       <footer class="bg-grey-lightest py-8">
         <p class="text-center text-grey text-xs mb-4">
-          Сделано с <fa icon="heart" class="text-red" />  <a href="https://guillaumebriday.fr" target="_blank" class="text-grey">adutskevich.com</a>.
+          Сделано с <fa icon="heart" class="text-red" />  <a href="https://guillaumebriday.fr" target="_blank" class="text-grey">adutskevich.com</a>
         </p>
 
 
