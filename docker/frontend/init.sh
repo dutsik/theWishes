@@ -8,7 +8,7 @@ if [ -f "$FILE" ]; then
 else
     echo "$DIR is Empty: vue-cli init"
     cd /app
-    yes | vue init webpack .
+    yes | vue init bootstrap-vue/webpack .
     npm install
     npm run dev
 fi

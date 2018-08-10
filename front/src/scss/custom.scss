@@ -1,0 +1,39 @@
+// Load those files to resolve variable in custom scss file.
+
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/_mixins.scss";
+
+$theme-colors: (
+  "indigo": #e6e8ff
+);
+
+$theme-colors: map-remove($theme-colors, "success", "info", "danger");
+
+// Generate `.bg-*` color utilities
+@each $color, $value in $theme-colors {
+  @include bg-variant('.bg-#{$color}', $value);
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.rounded-lg {
+  border-radius: .5rem;
+}
+
+.bg-success{
+  background-color: #6574cd !important;
+}
+
+.hover\:text-success:hover{
+  color: #6574cd !important;
+}
