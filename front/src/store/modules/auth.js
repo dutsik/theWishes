@@ -26,15 +26,15 @@ const actions = {
   [AUTH_SIGNUP]: ({commit, dispatch}, user) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_SIGNUP)
-      axios({url: 'auth/signup', data: user, method: 'POST' })
+      axios({url: 'auth', data: user, method: 'POST' })
         .then(resp => {
-          const token = resp.data.access_token
-          localStorage.setItem('user-token', token)
-          localStorage.setItem('status', 'success')
-          // Add the following line:
-          axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-          commit(AUTH_SUCCESS, token)
-          // dispatch(USER_REQUEST)
+          // const token = resp.data.access_token
+          // localStorage.setItem('user-token', token)
+          // localStorage.setItem('status', 'success')
+          // // Add the following line:
+          // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          // commit(AUTH_SUCCESS, token)
+          // // dispatch(USER_REQUEST)
           resolve(resp)
         })
         .catch(err => {
@@ -83,7 +83,7 @@ const actions = {
 
 const mutations = {
   [AUTH_SIGNUP]: (state) => {
-    state.status = 'loading'
+    state.status = 'signup'
   },
   [AUTH_REQUEST]: (state) => {
     state.status = 'loading'

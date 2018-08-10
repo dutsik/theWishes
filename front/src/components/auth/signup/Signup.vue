@@ -33,11 +33,11 @@
     <form  @submit.prevent="signup"  name="signup">
       <div class="form-group">
         <label  for="email">{{'auth.email' | translate}}</label><i class="bar"></i>
-          <input v-model="email" type="text" id="email" class="form-control"  required="required"/>
+          <input v-model="user.email" type="text" id="email" class="form-control"  required="required"/>
         </div>
       <div class="form-group">
         <label for="password">{{'auth.password' | translate}}</label><i class="bar"></i>
-          <input v-model="password" type="password" id="password" class="form-control"  required="required"/>
+          <input v-model="user.password" type="password" id="password" class="form-control"  required="required"/>
       </div>
       <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
         <button class="btn btn-primary" type="submit">
@@ -54,14 +54,17 @@
     name: 'signup',
     data () {
       return {
-        email: '',
-        password: ''
+        user: {
+          email: '',
+          password: ''
+        }
       }
     },
     methods: {
       signup: function () {
-        const { email, password } = this
-        this.$store.dispatch('signup', { email, password }).then(() => {
+        console.log(this)
+        const { user } = this
+        this.$store.dispatch('signup', { user }).then(() => {
           this.$router.push('/')
         })
       }
