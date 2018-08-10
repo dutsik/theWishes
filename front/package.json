@@ -1,8 +1,11 @@
 {
   "name": "theWishes",
   "version": "1.0.0",
-  "description": "2",
-  "author": "2",
+  "description": "Vue app for theWishes project",
+  "author": {
+    "name": "Ivan Adutskevich",
+    "email": "dutsik@gmail.com"
+  },
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
