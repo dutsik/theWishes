@@ -9,7 +9,6 @@ import store from './store'
 import router from './router'
 
 import VueAxios from 'vue-axios'
-import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
 
 import './i18n'
@@ -27,16 +26,6 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
-Vue.use(VueAuthenticate, {
-  baseUrl: 'http://localhost:3000', // Your API domain
-
-  providers: {
-    github: {
-      clientId: '',
-      redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
-    }
-  }
-})
 
 /* eslint-disable no-new */
 

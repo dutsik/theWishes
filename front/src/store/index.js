@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import VuexI18n from 'vuex-i18n' // load vuex i18n module
 
 import VueAxios from 'vue-axios'
-import { VueAuthenticate } from 'vue-authenticate'
 import axios from 'axios';
 
 
