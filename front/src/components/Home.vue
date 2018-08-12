@@ -20,17 +20,17 @@
           </div>
       </section>
 
-      <section class="bg-light py-5">
+      <section class="bg-light py-5 container">
           <div class="w-75 ml-auto mr-auto mt-5 mb-5">
-              <div class="d-flex flex-wrap -mx-6 -my-6 justify-content-center">
-                  <div class="w-25 px-3 py-3">
+              <div class="row  justify-content-center">
+                  <div class=" col-lg-4 px-3 py-3">
                       <div class="mb-3">
                         <fa :icon="['far', 'lightbulb']" size="2x" class="text-indigo" />
                       </div>
                     <h3 class="text-3xl font-semibold mb-3">Всегда видно чего бы я хотел</h3>
                     <p class="text-lg leading-normal text-grey-dark mb-8">Вы можете добавлять бесконечное количетсвао желаний. Вы можете изменять их статус или категорию. А также указать дату исполнения</p>
                   </div>
-                  <div class="w-25 px-3 py-3">
+                  <div class=" col-lg-4  px-3 py-3">
                       <div class="mb-3">
                         <fa icon="mobile-alt" size="2x" class="text-indigo" />
                       </div>
@@ -54,9 +54,9 @@
           </div>
       </section>
 
-      <footer class="bg-grey-lightest py-8">
-        <p class="text-center text-grey text-xs mb-4">
-          Сделано с <fa icon="heart" class="text-red" />  <a href="http://adutskevich.com" target="_blank" class="text-grey">adutskevich.com</a>
+      <footer class="bg-grey-lightest py-3">
+        <p class="text-center text-grey text-xs mb-0">
+          Сделано с <fa icon="heart" class="text-danger" />  <a href="http://adutskevich.com" target="_blank" class="text-grey">adutskevich.com</a>
         </p>
 
 
