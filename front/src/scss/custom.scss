@@ -1,19 +1,12 @@
-// Load those files to resolve variable in custom scss file.
 
-@import "~bootstrap/scss/_functions";
-@import "~bootstrap/scss/_variables";
-@import "~bootstrap/scss/_mixins.scss";
+
 
 $theme-colors: (
-  "indigo": #e6e8ff
+  "indigo": #e6e8ff,
+  "dark": #999
 );
 
-$theme-colors: map-remove($theme-colors, "success", "info", "danger");
 
-// Generate `.bg-*` color utilities
-@each $color, $value in $theme-colors {
-  @include bg-variant('.bg-#{$color}', $value);
-}
 
 .w-6 {
   width: 1.5rem;
@@ -37,3 +30,11 @@ $theme-colors: map-remove($theme-colors, "success", "info", "danger");
 .hover\:text-success:hover{
   color: #6574cd !important;
 }
+
+.line-through{
+  text-decoration: line-through;
+}
+
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/dist/bootstrap-vue';

@@ -13,9 +13,9 @@ import axios from 'axios'
 
 import './i18n'
 
-import 'bootstrap/scss/bootstrap.scss'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './scss/custom.scss'
+
+
 
 import bNavbar from 'bootstrap-vue/es/components/navbar/navbar'
 Vue.component('b-navbar', bNavbar);
