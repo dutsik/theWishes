@@ -13,6 +13,17 @@
       <b-nav-item :class="[status === 'all' ? 'pill-active' : 'pill-inactive']" class="pill-default lg:flex-no-grow no-underline" :to="{name: 'TaskList', params: { status: 'all' }}" exact>
         All ({{ tasks.length }})
       </b-nav-item>
+
+
+      <b-nav-item v-for="category in categories" :key="category.id" :class="[status === '' + category.id ? 'pill-active' : 'pill-inactive']" class="pill-default lg:flex-no-grow no-underline" :to="{name: 'TaskList', params: { status: '' + category.id }}" exact>
+        {{category.name}}  {{category.id}} ({{ categoryTasks('' + category.id).length }})
+
+      </b-nav-item>
+
+
+
+
+
     </b-nav>
 
 
@@ -75,7 +86,9 @@ export default {
   computed: {
     ...mapGetters([
       'completedTasks',
-      'activeTasks'
+      'activeTasks',
+      'categoryTasks',
+
     ]),
 
     filteredTasks () {
@@ -84,6 +97,9 @@ export default {
 
     tasks () {
       return this.$store.state.tasks.all
+    },
+    categories () {
+      return this.$store.state.tasks.categories
     },
 
     status () {

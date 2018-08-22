@@ -2,12 +2,16 @@ import axios from 'axios'
 
 const state = {
   all: [],
-  endpoint: '/wishes/'
+  wishesEndpoint: '/wishes/',
+  wishCategoriesEndpoint: '/wish_categories/'
 }
 
 const mutations = {
   setTasks (state, tasks) {
     state.all = tasks
+  },
+  setWishCategories (state, categories) {
+    state.categories = categories
   },
 
   addTask (state, task) {
@@ -30,19 +34,25 @@ const mutations = {
 }
 
 const getters = {
-  filteredTasks: (state, getters) => (status) => {
-    if (status === 'completed') {
+  filteredTasks: (state, getters) => (param) => {
+    if (param === 'completed') {
       return getters.completedTasks
-    } else if (status === 'active') {
+    } else if (param === 'active') {
       return getters.activeTasks
+    } else if (param === 'all') {
+      return state.all
     }
+    return getters.categoryTasks(param)
 
-    return state.all
   },
 
   activeTasks (state) {
     console.log(state)
     return state.all.filter(task => task.is_completed === false)
+  },
+
+  categoryTasks: (state) => (status) => {
+    return state.all.filter(task => task.category != null && task.category.id.toString() === status)
   },
 
   completedTasks (state) {
@@ -59,10 +69,12 @@ const getters = {
 const actions = {
   fetchTasks ({ commit }, params) {
     return new Promise((resolve, reject) => {
-      axios.get(state.endpoint)
+      axios.get(state.wishesEndpoint)
         .then(({ data }) => {
-          console.log(data)
           commit('setTasks', data)
+          axios.get(state.wishCategoriesEndpoint).then(({data})=>{
+            commit('setWishCategories', data)
+          })
           resolve()
         })
         .catch(error => {
@@ -73,7 +85,7 @@ const actions = {
 
   addTask ({ commit }, form) {
     return new Promise((resolve, reject) => {
-      axios.post(state.endpoint, form)
+      axios.post(state.wishesEndpoint, form)
         .then(({ data }) => {
           commit('addTask', data)
           resolve()
@@ -86,7 +98,7 @@ const actions = {
 
   updateTask ({ commit }, {task, form}) {
     return new Promise((resolve, reject) => {
-      axios.patch(state.endpoint + task.id, form)
+      axios.patch(state.wishesEndpoint + task.id, form)
         .then(({ data }) => {
           commit('updateTask', data)
           resolve(data)
@@ -99,7 +111,7 @@ const actions = {
 
   removeTask ({ commit }, task) {
     return new Promise((resolve, reject) => {
-      axios.delete(state.endpoint + task.id)
+      axios.delete(state.wishesEndpoint + task.id)
         .then(response => {
           commit('removeTask', task)
           resolve()
@@ -112,7 +124,7 @@ const actions = {
 
   deleteTasks ({ commit, getters }) {
     return new Promise((resolve, reject) => {
-      axios.delete(state.endpoint)
+      axios.delete(state.wishesEndpoint)
         .then(response => {
           getters.completedTasks.forEach(task => commit('removeTask', task))
           resolve()
