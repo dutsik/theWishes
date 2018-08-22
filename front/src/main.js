@@ -18,7 +18,9 @@ import './scss/custom.scss'
 
 
 import bNavbar from 'bootstrap-vue/es/components/navbar/navbar'
+import bNavItem from 'bootstrap-vue/es/components/nav/nav-item'
 Vue.component('b-navbar', bNavbar);
+Vue.component('b-nav-item', bNavItem);
 
 
 
