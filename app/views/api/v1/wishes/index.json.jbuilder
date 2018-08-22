@@ -8,7 +8,7 @@ json.array! @wishes do |wish|
   else
     json.category do |c|
       json.name wish.wish_category.name
-      json.id   "#{wish.wish_category.id}"
+      json.id   wish.wish_category.id
     end
 
   end
