@@ -19,33 +19,29 @@ services:
 #        - php
 #      networks:
 #        - net
-#
+
 
   postgresql:
     image: postgres:9.6-alpine
-    ports:
-      - "5432:5432"
     networks:
       - net
     volumes:
       - ./docker/db:/docker-entrypoint-initdb.d
-      - postgres-data:/var/lib/postgresql/data
+      - pd-data:/var/lib/postgresql/data
       # docker volume create --name postgres-data -d local
-    environment: &postgres_env
-      POSTGRES_DB: <DB NAME GOES HERE>
-      POSTGRES_PASSWORD: <DB PASSWORD GOES HERE>
+    ports:
+      - "55432:5432"
+
   app:
     build:
-      context: ./
-      dockerfile: ./docker/app/Dockerfile
-#    image: ruby:2.4
-#    restart: always
+      context: .
+      dockerfile: dev.Dockerfile
+#    image: dutsik/rails-ember:development
     volumes:
       - .:/usr/src/app
  # Mount the 'gems' volume on the folder that stores bundled gems:
       - app-gems:/usr/local/bundle
-    command: sh -c "./entrypoint-dev.sh && bundle install && bundle exec puma --config config/puma.rb"
-   # command: sh -c "rails_apps_composer new . -t core"
+    command: sh -c "bundle install && bundle exec puma --config config/puma.rb"
     ports:
       - "3000:3000"
     depends_on:
@@ -55,15 +51,28 @@ services:
 
     environment: &backend_env
       RAILS_ENV: development
+      RAILS_MAX_THREADS: 5
 
-      <<: *postgres_env
-      PG_PORT: 5432
-      PG_HOST: postgresql
+
       PG_TIMEOUT: 5000
       PG_POOL: 5
 
+      # Notice that this is the DB we'll use:
+      DATABASE_URL: postgres://postgres:123123@postgresql:5432/
+      # We'll use this env variable to make the log output gets directed
+      # to Docker:
+      RAILS_LOG_TO_STDOUT: "true"
+
+
+      ADMIN_NAME: 'Бендер Родригес'
+      ADMIN_EMAIL: <EMAIL GOES HERE>@gmail.com
+      ADMIN_PASSWORD: <PASSWORD GOES HERE>
+      DOMAIN_NAME: <DOMAIN GOES HERE>
+
 
       SECRET_KEY_BASE: heugbweruhbgwuer
+
+      DEVISE_JWT_SECRET_KEY: 3736b3824cf0cb81900b5186896008d61fb295d549d7df4e7b74a04ea7601395fceb4e7318ae89e7ff36cf1be230ec4b9f144405e20934bfcf8a18ca2669ab4a
     # Keep the stdin open, so we can attach to our app container's process and do things such as
     # byebug, etc:
     stdin_open: true
@@ -71,25 +80,22 @@ services:
     # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
 
-  php:
-#    build:
-#      context: ./docker/website
-#      dockerfile: ./docker/website/Dockerfile
-    image: php:7-fpm
-    volumes:
-      - ./website:/code
+  front:
+    build:
+        context: docker/frontend
+        dockerfile: Dockerfile
+    command: sh /init.sh
     environment:
-          admin_email: <ADMIN_EMAIL>
-          admin_password: <EMAIL_PASS>
-    dns: 8.8.8.8
-    networks:
-      - net
-    # Keep the stdin open, so we can attach to our app container's process and do things such as
-    # byebug, etc:
+      HOST: 0.0.0.0
+      PORT: 8080
+    volumes:
+      - ./front:/app:cached
+    ports:
+      - "8080:8080"
     stdin_open: true
-
-    # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
+    networks:
+          - net
 
 
 networks:
@@ -99,9 +105,9 @@ networks:
 
 volumes:
   # We'll define a volume that will store the data from the postgres databases:
-  postgres-data:
+  pd-data:
     driver: local
-  # The rabbitmq data store volume
+  # The rabbitmq data store volumeas
   redis-data:
     driver: local
   # We'll also define a volume that will store gems installed manually after the initial app
