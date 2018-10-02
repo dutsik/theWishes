@@ -19,8 +19,13 @@ import './scss/custom.scss'
 
 import bNavbar from 'bootstrap-vue/es/components/navbar/navbar'
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item'
+import bNav from 'bootstrap-vue/es/components/nav/nav'
+import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'
+
 Vue.component('b-navbar', bNavbar);
 Vue.component('b-nav-item', bNavItem);
+Vue.component('b-nav', bNav);
+Vue.component('b-form-select', bFormSelect);
 
 
 

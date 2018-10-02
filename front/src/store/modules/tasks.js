@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const state = {
   all: [],
+  categories: [],
   wishesEndpoint: '/wishes/',
   wishCategoriesEndpoint: '/wish_categories/'
 }
@@ -47,7 +48,6 @@ const getters = {
   },
 
   activeTasks (state) {
-    console.log(state)
     return state.all.filter(task => task.is_completed === false)
   },
 
@@ -74,8 +74,9 @@ const actions = {
           commit('setTasks', data)
           axios.get(state.wishCategoriesEndpoint).then(({data})=>{
             commit('setWishCategories', data)
+            resolve()
+
           })
-          resolve()
         })
         .catch(error => {
           reject(error)
@@ -98,6 +99,8 @@ const actions = {
 
   updateTask ({ commit }, {task, form}) {
     return new Promise((resolve, reject) => {
+      console.log(form)
+
       axios.patch(state.wishesEndpoint + task.id, form)
         .then(({ data }) => {
           commit('updateTask', data)

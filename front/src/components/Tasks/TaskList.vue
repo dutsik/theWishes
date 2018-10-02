@@ -16,7 +16,7 @@
 
 
       <b-nav-item v-for="category in categories" :key="category.id" :class="[status === '' + category.id ? 'pill-active' : 'pill-inactive']" class="pill-default lg:flex-no-grow no-underline" :to="{name: 'TaskList', params: { status: '' + category.id }}" exact>
-        {{category.name}}  {{category.id}} ({{ categoryTasks('' + category.id).length }})
+        {{category.name}} ({{ categoryTasks('' + category.id).length }})
 
       </b-nav-item>
 

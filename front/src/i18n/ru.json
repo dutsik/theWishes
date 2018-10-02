@@ -1,6 +1,6 @@
 {
   "auth": {
-    "agree": "I agree to",
+    "agree": "Согласен",
     "alreadyJoined": "Already joined?",
     "createAccount": "Create account",
     "createNewAccount": "Create account",
@@ -9,7 +9,7 @@
     "password": "Password",
     "signUp": "Sign Up",
     "termsOfUse": "Terms of Use.",
-    "welcome": "Welcome!"
+    "welcome": "Добро пожаловать!"
   },
   "breadcrumbs": {
     "home": "Home"

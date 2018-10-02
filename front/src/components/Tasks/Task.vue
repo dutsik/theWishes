@@ -7,22 +7,23 @@
         <!-- Task -->
         <div class="bg-white leading-none rounded-lg shadow overflow-hidden p-2 mb-3">
           <!-- Update form -->
-          <div v-if="editTask" class="flex flex-col">
-            <input v-focus @keyup.esc="cancelEdit" v-model="form.title" placeholder="What needs to be done?" class="w-full mb-2 pb-2 px-2 focus:outline-none text-lg font-semibold border-b" type="text">
+          <div v-if="editTask" class="flex flex-column">
+            <input v-focus @keyup.esc="cancelEdit" v-model="form.title" placeholder="Я хочу чтобы..." class="w-100 mb-2 pb-2 px-2 focus:outline-none text-lg font-semibold border-bottom border-0 " type="text">
 
-            <div class="flex items-center text-xs">
+            <div class="d-flex items-center text-xs">
               <fa :icon="['far', 'clock']" class="mr-1 text-grey-dark" />
-              <datetime type="datetime" v-model="form.due_at" placeholder="Due at" :minute-step="5" input-class="text-grey-dark"></datetime>
+              <datetime type="date" v-model="form.due_at" placeholder="Due at"  input-class="text-grey-dark"></datetime>
 
               <span v-if="form.due_at" @click="clearDueAt" class="flex-none rounded-full bg-grey hover:bg-red h-6 w-6 cursor-pointer flex items-center justify-center shadow">
                 <fa icon="times" class="text-white" />
               </span>
             </div>
+            <b-form-select  v-model="selected" :options="categories" :text-field='"name"' :value-field='"id"' :value="form.category.id" class="mb-3" />
           </div>
 
           <div v-else class="d-flex align-items-center">
             <div class="flex-grow-1">
-              <p @click="editTask = true" class="font-semibold text-lg mx-1 my-0 text-left flex-auto cursor-pointer" :class="{'line-through text-grey' : task.is_completed}">{{ task.title }}</p>
+              <p @click="editTask = true" class="font-semibold text-lg mx-1 my-0 text-left flex-auto cursor-pointer" :class="{'line-through text-grey' : task.is_completed}">{{ task.orderNumber }} {{ task.title }}</p>
 
               <span v-if="task.due_at" @click="editTask = true" :title="toDate(task)" class="flex flex-no-shrink mr-2 mt-2 px-2 py-1 text-xs cursor-pointer" :class="[task.is_completed ? 'line-through text-grey' : 'text-grey-dark']">
                 <fa :icon="['far', 'clock']" class="mr-1" /> {{ fromNow(task) }}
@@ -73,6 +74,7 @@ import Form from '@/utils/Form'
 import OnClickOutside from '@/components/OnClickOutside'
 import 'vue-datetime/dist/vue-datetime.css'
 
+
 export default {
   components: { OnClickOutside },
   props: {
@@ -91,8 +93,10 @@ export default {
       error: null,
       form: new Form({
         title: this.task.title,
-        due_at: this.task.due_at
-      })
+        due_at: this.task.due_at,
+        category: this.task.category
+      }),
+      selected: this.task.category.id.valueOf()
     }
   },
 
@@ -103,16 +107,23 @@ export default {
 
     isNotLoading () {
       return !(this.isToggleLoading || this.isRemoveLoading || this.isUpdateLoading)
-    }
+    },
+    categories () {
+      return this.$store.state.tasks.categories
+    },
+
   },
 
   methods: {
     fromNow (task) {
+      moment.locale('ru')
       return moment(task.due_at).fromNow()
     },
 
     toDate (task) {
-      return moment(task.due_at).format('dddd, MMMM Do YYYY, h:mm:ss a')
+      moment.locale('ru')
+
+      return moment(task.due_at).format('dddd, MMMM Do YYYY')
     },
 
     toggleCompleted () {
@@ -143,17 +154,21 @@ export default {
 
       this.isUpdateLoading = true
       this.error = null
-
+      console.log(this.form);
+      console.log(this.selected);
       this.$store.dispatch('updateTask', {
         task: this.task,
         form: {
           title: this.form.title,
-          due_at: this.form.due_at ? moment(this.form.due_at).format('YYYY-MM-DD HH:mm:ss') : null
+          due_at: this.form.due_at ? moment(this.form.due_at).format('YYYY-MM-DD HH:mm:ss') : null,
+          category: {
+            id: this.selected
+          }
         }
       })
         .then(data => {
           this.form.due_at = data.due_at
-
+          this.selected = data.category.id
           this.isUpdateLoading = false
           this.editTask = false
         })
