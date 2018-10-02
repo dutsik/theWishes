@@ -9,10 +9,10 @@ class Api::V1::WishesController < ApplicationController
   # TODO add category and due_at to create also for update
   def create
     @user = current_user
-    @wishes_count = @user.wishes.count
+    @wishes_count = @user.wishes.count+1
     @wish = @user.wishes.create!(
         body: params[:body],
-        orderNumber: ++@wishes_count )
+        orderNumber: @wishes_count )
     render :partial => "wish", :object => @wish
   end
   def show
